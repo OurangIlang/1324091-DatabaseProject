@@ -25,8 +25,8 @@ if ($result_insert) {
 }
 
     
-    if (isset($_GET['invoice_id'])) {
-        $invoice_id = $_GET['invoice_id'];
+    if (isset($_GET['id']) || isset($_GET['invoice_id'])) {
+        $invoice_id = isset($_GET['id']) ? $_GET['id'] : $_GET['invoice_id'];
         $query_header = mysqli_query($conn, "SELECT i.*, c.customer_name 
                                                 FROM invoice i 
                                                 JOIN customer c ON i.customer_id = c.customer_id 
@@ -221,7 +221,7 @@ $end_item = min($mulai_dari + $limit, $total_data);
                         ?>
                         <tr style="background-color: #fafafa;">
                             <td colspan="4" style="text-align: right;"> <strong> TOTAL HARGA </strong> </td>
-                            <td style="text-align: right; color:var(--accent-color);"> <strong> Rp <?php echo number_format($extension_rp_total, 0, ',', '.'); ?> </strong> </td>
+                            <td style="text-align: right; color:var(--accent-color);"> <strong> Rp <?php echo number_format($extension_rp_total ?? 0, 0, ',', '.'); ?> </strong> </td>
                             <td></td>
                         </tr>
                     </tbody>

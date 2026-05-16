@@ -7,11 +7,18 @@ if (isset($_POST['proses'])) {
   $invoice_date = $_POST['invoice_date'];
   $no_pr = $_POST['no_pr'];
   $no_po = $_POST['no_po'];
-  $payment = $_POST['payment'];
 
-  mysqli_query($conn, "INSERT INTO invoice VALUES ('$customer_id','$invoice_id', '$invoice_date', '$no_pr', '$no_po', '$payment')");
-  echo "<script>window.location.href = 'invoicelihat.php?invoice_id=" . $invoice_id . "';</script>";
-}
+  $query = "INSERT INTO invoice (customer_id, invoice_id, invoice_date, no_po, no_pr) 
+  VALUES ('$customer_id', '$invoice_id', '$invoice_date', '$no_po', '$no_pr')";
+  $eksekusi = mysqli_query($conn, $query);
+
+  if ($eksekusi) {
+      header("Location: invoicedetail-lihat.php?id=" . $invoice_id);
+      exit();
+    } else {
+      die("Gagal menyimpan data: " . mysqli_error($conn)); 
+    }
+  }
 ?>
 <!doctype html>
 <html lang="en">
@@ -133,15 +140,10 @@ if (isset($_POST['proses'])) {
                     <input type="text" name="no_po" class="form-control" placeholder="Nomor Purchase Order">
                 </div>
 
-                <div class="modern-input-group">
-                    <label>Payment</label>
-                    <input type="number" name="payment" value="0" class="form-control" readonly>
-                </div>
-                
                 <hr class="mt-3 mb-3">
                 <div class="mt-3" style="text-align: right;">
                     <button type="submit" name="proses" class="btn btn-accent rounded-pill px-4 mr-2"><i class="fa-solid fa-check mr-1"></i> Simpan Invoice</button>
-                    <a href="invoicelihat.php" class="btn btn-danger rounded-pill px-4"><i class="fa-solid fa-times mr-1"></i> Batal</a>
+                    <a href="invoicedetail-lihat.php" class="btn btn-danger rounded-pill px-4"><i class="fa-solid fa-times mr-1"></i> Batal</a>
                 </div>
             </form>
         </div>
