@@ -1,0 +1,34 @@
+services:
+  app:
+    build:
+      context: ./Aplikasi
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_NAME: dbinvoice1
+      DB_USER: ${MARIADB_USER:-invoice_app}
+      DB_PASSWORD: ${MARIADB_PASSWORD:-invoice_dev_password}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_DATABASE: dbinvoice1
+      MARIADB_USER: ${MARIADB_USER:-invoice_app}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-invoice_dev_password}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-local_root_password}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./Aplikasi/dbinvoice1.sql:/docker-entrypoint-initdb.d/01-dbinvoice1.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  db_data:

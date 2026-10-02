@@ -31,7 +31,7 @@ if (isset($_POST['proses'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        /* --- DESIGN MINIMALIS & MODERN --- */
+        /*Design web (minimalis) */
         body { background-color: #f8f9fa; font-family: 'Poppins', sans-serif; }
         :root { --accent-color: #00bfa5; --accent-hover: #00a08a; --sidebar-bg: #1a1d21; --light-text: rgba(255, 255, 255, 0.7); }
 
